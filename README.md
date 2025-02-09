@@ -61,7 +61,7 @@ python3 -m venv venv-hwz-genai
 Mit aktivierter Umgebung installiere die Pakete (ohne GPU‑spezifische Optionen):
 
 ```bash
-pip install numpy PyPDF2 sentence-transformers transformers torch scikit-learn openai
+pip install numpy PyPDF2 sentence-transformers transformers torch scikit-learn openai ollama
 ```
 
 ### 2.4. Ausführen der Python-Dateien
