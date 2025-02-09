@@ -5,35 +5,34 @@ Ausgangslage: Nutzung der OpenAI API für die Integration.
 Tasks:
 - Nutzt die OpenAI API, um Text zu generieren.
 - Führt simple Tests der Endpoints durch.
+
+API-Schlüssel in Umgebungsvariable laden:
+Stelle sicher, dass du den API-Schlüssel als Umgebungsvariable gesetzt hast:
+    export OPENAI_API_KEY="dein_api_schluessel"
 """
-
 import os
-import openai
+import asyncio
+from openai import AsyncOpenAI
 
-def main():
-    # API-Schlüssel aus der Umgebungsvariable laden (sicherer Umgang mit sensiblen Daten)
-    openai_api_key = os.getenv("OPENAI_API_KEY")
-    if not openai_api_key:
-        raise ValueError("Bitte setze die Umgebungsvariable OPENAI_API_KEY mit deinem OpenAI API-Schlüssel.")
-    openai.api_key = openai_api_key
+# Erstelle einen asynchronen OpenAI-Client. Der API-Schlüssel wird aus der Umgebungsvariable geladen.
+client = AsyncOpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY")  # Standard: API-Schlüssel wird hier automatisch geladen.
+)
 
-    # Beispielprompt zur Textgenerierung
-    prompt = "Schreibe einen kurzen Absatz über die Bedeutung von Künstlicher Intelligenz im Alltag in der Schweiz."
-    
-    try:
-        # Anfrage an die OpenAI API zur Textgenerierung (hier z.B. mit dem Modell text-davinci-003)
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # Alternativ kann auch ein anderes Modell genutzt werden
-            prompt=prompt,
-            max_tokens=150,             # Maximale Anzahl an Tokens in der Antwort
-            temperature=0.7             # Steuerung der "Kreativität" der Antwort
-        )
-        # Ausgabe der generierten Antwort
-        generated_text = response.choices[0].text.strip()
-        print("Generierter Text:")
-        print(generated_text)
-    except Exception as e:
-        print("Fehler bei der Anfrage an die OpenAI API:", e)
+async def main() -> None:
+    # Erkläre: Diese Funktion sendet eine Chat-Completion-Anfrage an das Modell "gpt-4o".
+    # Sende eine Anfrage, die eine Testnachricht an das Modell übergibt.
+    chat_completion = await client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": "Say this is a test",  # Testnachricht
+            }
+        ],
+        model="gpt-3.5-turbo",  # Modellname
+    )
+    # Optional: Ausgabe zur Überprüfung der Antwort
+    print(chat_completion)
 
-if __name__ == "__main__":
-    main()
+# Führt die asynchrone main()-Funktion aus.
+asyncio.run(main())

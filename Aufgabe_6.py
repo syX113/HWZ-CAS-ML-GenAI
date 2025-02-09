@@ -23,10 +23,14 @@ Wichtige Hinweise zu Ollama und DeepSeek-Modellen:
 
 import os
 import glob
-import subprocess
 import numpy as np
 import PyPDF2
 from sentence_transformers import SentenceTransformer, util
+from ollama import Client  # Updated import for a custom client
+import subprocess   # Added for managing Ollama commands
+import time         # Added for waiting until Ollama is ready
+
+client = Client(host="http://localhost:11434")
 
 def extract_text_from_pdf(pdf_path: str) -> str:
     """Extrahiert den Text aus einer PDF-Datei."""
@@ -42,38 +46,42 @@ def extract_text_from_pdf(pdf_path: str) -> str:
 def split_text_into_chunks(text: str, chunk_size: int = 500) -> list:
     """Teilt den Text in kleinere Abschnitte (Chunks) auf."""
     words = text.split()
+
     # Erstelle Chunks basierend auf einer bestimmten Anzahl von Wörtern
     chunks = [" ".join(words[i:i+chunk_size]) for i in range(0, len(words), chunk_size)]
     return chunks
 
 def call_ollama(prompt: str) -> str:
     """
-    Ruft das lokale LLM (Ollama) auf, um eine Antwort zu generieren.
-    
-    Wichtige Hinweise:
-    - Stelle sicher, dass Ollama installiert und gestartet wurde (siehe ENV_SETUP.md).
-    - Um DeepSeek-Modelle zu verwenden, lade das gewünschte Modell mit:
-        ollama pull deepseek-r1:<model_tag>
-      Beispiel:
-        ollama pull deepseek-r1:7b
-    - Führe das Modell anschließend aus, oder nutze die API (ollama run deepseek-r1:<model_tag>).
-    - Weitere Informationen findest du auf: https://ollama.com/
-    
-    Der hier verwendete Befehl ist ein Platzhalter und kann je nach Modell und Konfiguration angepasst werden.
+    Connects to Ollama using the ollama Python package via a custom client.
     """
     try:
-        # Beispiel: Ruft Ollama über subprocess auf. Der folgende Befehl ist ein Platzhalter.
-        result = subprocess.run(
-            ["ollama", "run", "deepseek-r1:7b", prompt],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        return result.stdout.strip()
-    except subprocess.CalledProcessError as e:
+        response = client.chat(model="deepseek-r1:7b", messages=[{'role': 'user', 'content': prompt}])
+        return response['message']['content']  # or: response.message.content
+    except Exception as e:
         return f"Fehler bei der Abfrage des Ollama-Modells: {e}"
 
+def start_and_setup_ollama() -> subprocess.Popen:
+    """
+    Downloads the model using ollama pull and starts the model using ollama run.
+    Returns the Popen process so it can be terminated later if needed.
+    """
+
+    try:        
+        print("Lade Modell deepseek-r1:7b herunter...") # Modell ist ca. 5 GB gross
+        subprocess.run(["ollama", "pull", "deepseek-r1:7b"], check=True)
+        print("Starte Modell deepseek-r1:7b...")
+        proc = subprocess.Popen(["ollama", "run", "deepseek-r1:7b"])
+        time.sleep(5)  # Warte, bis Ollama gestartet ist
+        return proc
+    except Exception as e:
+        print(f"Fehler beim Start von Ollama: {e}")
+        return None
+
 def main():
+    # Starte und richte Ollama ein
+    ollama_process = start_and_setup_ollama()
+    
     # Verzeichnis mit den PDF-Dateien (z.B. 3-4 PDFs)
     pdf_folder = "pdfs"
     pdf_files = glob.glob(os.path.join(pdf_folder, "*.pdf"))
@@ -116,7 +124,7 @@ def main():
     print("\nRelevanter Kontext aus den PDFs:")
     print(relevant_chunk)
     
-    # Erstelle einen Prompt für das LLM, der den gefundenen Kontext und die Benutzerfrage kombiniert
+    # Erstelle einen Prompt für das LLM, der den gefundenen Kontext und den Prompt kombiniert
     prompt = (
         f"Nutze den folgenden Kontext aus PDFs, um die Frage zu beantworten:\n\n"
         f"Kontext: {relevant_chunk}\n\n"
@@ -127,6 +135,10 @@ def main():
     answer = call_ollama(prompt)
     print("\nAntwort vom LLM:")
     print(answer)
+
+    # Optional: Nach Beendigung des Skripts, kill die Ollama-Prozess
+    if ollama_process:
+        ollama_process.terminate()
 
 if __name__ == "__main__":
     main()

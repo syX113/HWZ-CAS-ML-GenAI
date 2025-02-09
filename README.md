@@ -147,6 +147,28 @@ Ollama ermöglicht den lokalen Aufruf eines LLM über die Kommandozeile. Für La
 ollama --version
 ```
 
+### 4.5. Lokales Modell mit Ollama herunterladen und ausführen
+
+Um ein lokales Modell herunterzuladen, ersetze <model-name> durch den gewünschten Modellnamen und führe folgenden Befehl aus:
+
+```bash
+ollama pull <model-name>
+```
+
+Starte das Modell anschließend mit:
+
+```bash
+ollama run <model-name>
+```
+
+Hinweis: Bitte beachte die Dokumentation von Ollama für verfügbare Modelle und weitere Optionen. Weitere Modelle findest du in der [Model Library](https://ollama.com/library).
+
+Beispiel:
+```bash
+ollama run deepseek-r1:14b
+ollama run llama3.2:1b
+```
+
 ---
 
 ## 5. Zusätzliche Hinweise
