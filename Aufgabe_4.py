@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Aufgabe 4:
-Ausgangslage: Waehlt ein Modell auf Hugging Face (z.B. ein kleineres Modell wie 7b) zur Sentimentanalyse.
+Ausgangslage: Wählt ein Modell auf Hugging Face (z.B. ein kleineres Modell wie 7b) zur Sentimentanalyse.
 Das Modell soll genutzt werden, um Texte zu klassifizieren.
 
 Tasks:

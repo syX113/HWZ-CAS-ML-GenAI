@@ -30,9 +30,6 @@ import re            # Für die intelligente Textaufteilung
 import numpy as np
 import PyPDF2
 from sentence_transformers import SentenceTransformer, util
-
-# Wir gehen davon aus, dass die ollama-Python-Bibliothek installiert ist.
-# Falls nicht, bitte installieren: pip install ollama
 from ollama import Client
 
 # Initialisiere den Ollama-Client, der über HTTP kommuniziert.
