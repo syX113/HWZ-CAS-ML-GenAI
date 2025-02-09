@@ -7,8 +7,8 @@ Tasks:
 - Führt simple Tests der Endpoints durch.
 
 API-Schlüssel in Umgebungsvariable laden:
-Stelle sicher, dass du den API-Schlüssel als Umgebungsvariable gesetzt hast:
-    export OPENAI_API_KEY="dein_api_schluessel"
+Stelle sicher, dass du den API-Schlüssel als Umgebungsvariable via Terminal gesetzt hast:
+    export OPENAI_API_KEY="api_schluessel"
 """
 import os
 import asyncio
@@ -16,7 +16,7 @@ from openai import AsyncOpenAI
 
 # Erstelle einen asynchronen OpenAI-Client. Der API-Schlüssel wird aus der Umgebungsvariable geladen.
 client = AsyncOpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY")  # Standard: API-Schlüssel wird hier automatisch geladen.
+    api_key=os.environ.get("OPENAI_API_KEY")  # API-Schlüssel wird hier geladen.
 )
 
 async def main() -> None:
@@ -26,13 +26,13 @@ async def main() -> None:
         messages=[
             {
                 "role": "user",
-                "content": "Say this is a test",  # Testnachricht
+                "content": "Erkläre das 3-Körper Problem in einfachen Worten und klar verständlich",  # Testnachricht
             }
         ],
         model="gpt-3.5-turbo",  # Modellname
     )
-    # Optional: Ausgabe zur Überprüfung der Antwort
-    print(chat_completion)
+
+    print(f'Antwort von OpenAI API: {chat_completion.choices[0].message.content}')
 
 # Führt die asynchrone main()-Funktion aus.
 asyncio.run(main())
