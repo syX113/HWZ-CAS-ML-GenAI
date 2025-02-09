@@ -69,16 +69,16 @@ pip install numpy PyPDF2 sentence-transformers transformers torch scikit-learn o
 
 - **Für die Sentimentanalyse (Aufgabe_4.py):**
   ```bash
-  python Aufgabe_4.py
+  python Aufgabe_3.py
   ```
 
 - **Für die OpenAI Integration (Aufgabe_5.py):**
   ```bash
-  python Aufgabe_5.py
+  python Aufgabe_4.py
   ```
 - **Für das Retrieval Augmented Generation System (Aufgabe_6.py):**
   ```bash
-  python Aufgabe_6.py
+  python Aufgabe_5.py
   ```
 ---
 
@@ -114,15 +114,15 @@ pip install sentence-transformers transformers torch scikit-learn
 
 - **Für die Sentimentanalyse (Aufgabe_4.py):**
   ```bash
-  python Aufgabe_4.py
+  python Aufgabe_3.py
   ```
 - **Für die OpenAI Integration / nutzen der OpenAI API (Aufgabe_5.py):**
   ```bash
-  python Aufgabe_5.py
+  python Aufgabe_4.py
   ```
 - **Für das Retrieval Augmented Generation System (Aufgabe_6.py):**
   ```bash
-  python Aufgabe_6.py
+  python Aufgabe_5.py
   ```
 
 ---
