@@ -23,10 +23,10 @@ Wichtige Hinweise zu Ollama und DeepSeek-Modellen:
 
 import os
 import glob
-import sys           # Für Kommandozeilenargumente
-import time          # Für Wartezeiten
-import subprocess    # Zum Ausführen von Ollama-Befehlen
-import re            # Für die intelligente Textaufteilung
+import sys
+import time
+import subprocess
+import re
 import numpy as np
 import PyPDF2
 from sentence_transformers import SentenceTransformer, util
@@ -190,7 +190,6 @@ def main():
     for pdf_file in pdf_files:
         print(f"Verarbeite: {pdf_file}")
         text = extract_text_from_pdf(pdf_file)
-        # Verwende die optimierte Chunking-Funktion, um sinnvolle und überlappende Chunks zu erstellen.
         chunks = smart_split_text_into_chunks(text, max_words=300, overlap=50)
         corpus_chunks.extend(chunks)
 

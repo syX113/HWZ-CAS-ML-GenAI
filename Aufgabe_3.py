@@ -9,8 +9,6 @@ Tasks:
 - Diskutiert anschliessend, welche Metriken (z.B. Accuracy, Precision, Recall, F1-Score) sinnvoll waeren und warum.
 """
 
-import os
-import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
@@ -27,7 +25,7 @@ def main():
     # Erstelle eine Pipeline für die Sentimentanalyse
     sentiment_pipeline = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
     
-    # Liste von Beispielsätzen für die Klassifizierung (ca. 15 Sätze)
+    # Liste von Beispielsätzen für die Klassifizierung
     sample_texts = [
         "I absolutely love the new design of your product! It is amazing and well thought out.",
         "This is the worst experience I've ever had.",
@@ -46,7 +44,7 @@ def main():
         "A truly enjoyable and unforgettable journey."
     ]
     
-    # Erwartete Labels für die Beispielsätze:
+    # Erwartete Labels für die Beispielsätze (True Labels), Reihenfolge entspricht der der Beispielsätze:
     # 1 = positiv, 0 = negativ (diese Labels sind manuell festgelegt, basierend auf der Stimmung der Sätze)
     true_labels = [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
     

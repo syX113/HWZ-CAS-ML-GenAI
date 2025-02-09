@@ -14,14 +14,31 @@ import os
 import asyncio
 from openai import AsyncOpenAI
 
-# Erstelle einen asynchronen OpenAI-Client. Der API-Schlüssel wird aus der Umgebungsvariable geladen.
-client = AsyncOpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY")  # API-Schlüssel wird hier geladen.
-)
+def load_api_key() -> str:
+    # Prüfen Umgebungsvariablen
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if api_key:
+        return api_key
+    # Falls API Key nicht vorhanden, prüfe File
+    key_file = "api_key.txt"
+    try:
+        with open(key_file, "r") as f:
+            api_key = f.read().strip()
+        if api_key:
+            return api_key
+    except Exception:
+        pass
+    raise Exception("API key not found. Set OPENAI_API_KEY or provide the key in api_key.txt.")
+
+# Erstelle einen asynchronen OpenAI-Client using the loaded API key.
+client = AsyncOpenAI(api_key=load_api_key())
 
 async def main() -> None:
     # Erkläre: Diese Funktion sendet eine Chat-Completion-Anfrage an das Modell "gpt-4o".
     # Sende eine Anfrage, die eine Testnachricht an das Modell übergibt.
+    # Beispiel für Textklassifikation: https://platform.openai.com/docs/examples/default-tweet-classifier
+
+    
     chat_completion = await client.chat.completions.create(
         messages=[
             {
