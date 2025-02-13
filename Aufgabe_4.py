@@ -10,16 +10,17 @@ API-Schlüssel in Umgebungsvariable laden:
 Stelle sicher, dass du den API-Schlüssel als Umgebungsvariable via Terminal gesetzt hast:
     export OPENAI_API_KEY="api_schluessel"
 """
+
 import os
-import asyncio
-from openai import AsyncOpenAI
+from openai import OpenAI
 
 def load_api_key() -> str:
-    # Prüfen Umgebungsvariablen
+    # Prüfe zuerst die Umgebungsvariable
     api_key = os.environ.get("OPENAI_API_KEY")
     if api_key:
         return api_key
-    # Falls API Key nicht vorhanden, prüfe File
+
+    # Falls nicht vorhanden, versuche, die Datei "api_key.txt" zu lesen
     key_file = "api_key.txt"
     try:
         with open(key_file, "r") as f:
@@ -28,28 +29,27 @@ def load_api_key() -> str:
             return api_key
     except Exception:
         pass
+
     raise Exception("API key not found. Set OPENAI_API_KEY or provide the key in api_key.txt.")
 
-# Erstelle einen asynchronen OpenAI-Client using the loaded API key.
-client = AsyncOpenAI(api_key=load_api_key())
+def main() -> None:
+    # Lade den API-Schlüssel und erstelle eine OpenAI-Clientinstanz
+    api_key = load_api_key()
+    client = OpenAI(api_key=api_key)
 
-async def main() -> None:
-    # Erkläre: Diese Funktion sendet eine Chat-Completion-Anfrage an das Modell "gpt-4o".
-    # Sende eine Anfrage, die eine Testnachricht an das Modell übergibt.
-    # Beispiel für Textklassifikation: https://platform.openai.com/docs/examples/default-tweet-classifier
-
-    
-    chat_completion = await client.chat.completions.create(
+    # Sende eine Anfrage an das Modell "gpt-4o"
+    chat_completion = client.chat.completions.create(
+        model="gpt-4o",  # Alternativ: "gpt-3.5-turbo", falls gewünscht
         messages=[
             {
                 "role": "user",
-                "content": "Erkläre das 3-Körper Problem in einfachen Worten und klar verständlich",  # Testnachricht
+                "content": "Erkläre das 3-Körper Problem in einfachen Worten und klar verständlich",
             }
-        ],
-        model="gpt-3.5-turbo",  # Modellname
+        ]
     )
 
-    print(f'Antwort von OpenAI API: {chat_completion.choices[0].message.content}')
+    # Gib die Antwort der OpenAI API aus
+    print(f"Antwort von OpenAI API: {chat_completion.choices[0].message.content}")
 
-# Führt die asynchrone main()-Funktion aus.
-asyncio.run(main())
+if __name__ == "__main__":
+    main()
