@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Aufgabe 5:
+Aufgabe 4:
 Ausgangslage: Nutzung der OpenAI API für die Integration.
 Tasks:
 - Nutzt die OpenAI API, um Text zu generieren.

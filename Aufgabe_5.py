@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Aufgabe 6:
+Aufgabe 5:
 Ausgangslage: Ziel ist es, ein kleines RAG-System (Retrieval Augmented Generation) lokal aufzubauen und mit 3-4 PDF-Dateien via LLM zu interagieren.
 Dazu kann z.B. Ollama in Verbindung mit Python genutzt werden.
 
