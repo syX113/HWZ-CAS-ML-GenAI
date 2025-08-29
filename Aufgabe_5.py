@@ -107,8 +107,8 @@ def call_ollama(prompt: str) -> str:
     :return: Die generierte Antwort des Modells.
     """
     try:
-        # Sende eine Chat-Anfrage an das Modell. Hier wird "llama3.2:1b" als Beispiel genutzt.
-        response = client.chat(model="llama3.2:1b", messages=[{'role': 'user', 'content': prompt}])
+        # Sende eine Chat-Anfrage an das Modell. Hier wird "gemma3:1b" als Beispiel genutzt.
+        response = client.chat(model="gemma3:1b", messages=[{'role': 'user', 'content': prompt}])
         return response['message']['content']
     except Exception as e:
         return f"Fehler bei der Abfrage des Ollama-Modells: {e}"
@@ -123,11 +123,11 @@ def start_and_setup_ollama() -> subprocess.Popen:
     :return: Den Popen-Prozess des gestarteten Ollama-Modells, oder None im Fehlerfall.
     """
     try:
-        print("Lade Modell 'llama3.2:1b' herunter...")
-        subprocess.run(["ollama", "pull", "llama3.2:1b"], check=True)
-        print("Starte Modell 'llama3.2:1b'...")
+        print("Lade Modell 'gemma3:1b' herunter...")
+        subprocess.run(["ollama", "pull", "gemma3:1b"], check=True)
+        print("Starte Modell 'gemma3:1b'...")
         proc = subprocess.Popen(
-            ["ollama", "run", "llama3.2:1b"],
+            ["ollama", "run", "gemma3:1b"],
             stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL

@@ -58,7 +58,7 @@ def main():
         predicted = 1 if result['label'] == 'POSITIVE' else 0
         predicted_labels.append(predicted)
         print(f"Text: {text}")
-        print(f"True Label: {true_label} - Predicted: {predicted} (Score: {result['score']:.4f})")
+        print(f"True Label: {true_label} - Predicted: {predicted} (Conf. Score: {result['score']:.4f})")
         print("-" * 80)
     
     # Berechne verschiedene Evaluationsmetriken
