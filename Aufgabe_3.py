@@ -27,7 +27,7 @@ def main():
     
     # Liste von Beispielsätzen für die Klassifizierung
     sample_texts = [
-        "I absolutely love the new design of your product! It is amazing and well thought out.",
+        "I find the product cool but the shipping was delayed and the packaging was damaged.",
         "This is the worst experience I've ever had.",
         "The movie was fantastic, I enjoyed every minute.",
         "I don't like the new update, it ruined everything.",
@@ -45,7 +45,7 @@ def main():
     ]
     
     # Erwartete Labels für die Beispielsätze (True Labels), Reihenfolge entspricht der der Beispielsätze:
-    # 1 = positiv, 0 = negativ (diese Labels sind manuell festgelegt, basierend auf der Stimmung der Sätze)
+    # 1 = positiv, 0 = negativ (diese Labels sind manuell festgelegt für die Evaluation, basierend auf der Stimmung der Sätze)
     true_labels = [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
     
     # Führe die Sentimentanalyse für jeden Beispielsatz durch
